@@ -1,5 +1,9 @@
 #! /usr/bin/env node
-import { utils } from '@solkatt-one/utils';
+import { utils } from '@solkatt-one/utils'
+import importLocal from 'import-local'
 
-utils()
-console.log('Hello, Solkatt One Cli!')
+if (importLocal(import.meta.url)) {
+	console.log('Using local version of this package.')
+} else {
+	utils()
+}

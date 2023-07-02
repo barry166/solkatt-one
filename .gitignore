@@ -1,7 +1,7 @@
 .vscode
 .idea
 node_modules
-
+**/lib/
 commands/**/node_modules
 core/**/node_modules
 models/**/node_modules

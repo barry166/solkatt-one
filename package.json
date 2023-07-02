@@ -5,7 +5,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "clean": "rm -rf node_modules **/*/node_modules",
-    "build": "pnpm -r build"
+    "build": "pnpm -r build",
+    "watch": "pnpm -r --parallel exec  tsc -w"
   },
   "keywords": [],
   "author": "",
