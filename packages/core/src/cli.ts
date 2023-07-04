@@ -1,4 +1,3 @@
-
 import { log } from '@solkatt-one/utils'
 import pkg from '../package.json'
 // import path from 'path'
@@ -10,18 +9,18 @@ import pkg from '../package.json'
 // const pkgPath = path.resolve(__dirname, '../package.json')
 // const pkg = fse.readJSONSync(pkgPath)
 
-async function core () {
-	console.log('core')
-	prepare()
+async function core() {
+  console.log('core')
+  prepare()
 }
 
-function prepare () {
-	checkPkgVersion()
+function prepare() {
+  checkPkgVersion()
 }
 
-function checkPkgVersion () {
-	console.log('log', pkg)
-	log.info('cli', 'test cli log')
+function checkPkgVersion() {
+  console.log('log', pkg)
+  log.info('cli', 'test cli log')
 }
 
 // function checkNodeVersion () { }

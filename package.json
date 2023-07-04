@@ -6,7 +6,10 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "clean": "rm -rf node_modules **/*/node_modules",
     "build": "pnpm -r build",
-    "watch": "pnpm -r --parallel exec  tsc -w"
+    "watch": "pnpm -r --parallel exec  tsc -w",
+    "eslint": "eslint --fix packages --ext .ts --max-warnings=0",
+    "prettier": "prettier --write \"packages/**/*.ts\"",
+    "prepare": "husky install"
   },
   "keywords": [],
   "author": "",
@@ -14,8 +17,13 @@
   "devDependencies": {
     "@changesets/cli": "^2.26.2",
     "@types/node": "*",
+    "@typescript-eslint/eslint-plugin": "^5.61.0",
+    "@typescript-eslint/parser": "^5.61.0",
+    "eslint": "^8.44.0",
+    "prettier": "^2.8.8",
     "rimraf": "^5.0.1",
     "ts-node": "^10.9.1",
-    "typescript": "^5.1.6"
+    "typescript": "^5.1.6",
+    "husky": "^8.0.0"
   }
 }
