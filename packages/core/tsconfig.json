@@ -6,7 +6,7 @@
       "es6"
     ],
     // "declaration": true,
-    "rootDir": "./src",
+    "rootDir": "./",
     "outDir": "./lib",
     "strict": true,
     "esModuleInterop": true,
@@ -19,10 +19,10 @@
     // "noUnusedLocals": true,
   },
   "include": [
-    "src/*"
+    "**/*"
   ],
   "exclude": [
     "node_modules",
-    "package.json"
+    "lib"
   ],
 }

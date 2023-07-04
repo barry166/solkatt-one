@@ -23,9 +23,11 @@
   },
   "dependencies": {
     "@solkatt-one/utils": "workspace:^1.0.0",
+    "fs-extra": "^11.1.1",
     "import-local": "^3.1.0"
   },
   "devDependencies": {
+    "@types/fs-extra": "^11.0.1",
     "@types/import-local": "^3.1.0",
     "dirname-filename-esm": "^1.1.1",
     "filehound": "^1.17.6"

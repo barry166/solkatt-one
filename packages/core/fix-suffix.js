@@ -43,3 +43,5 @@ files.then((filePaths) => {
     });
   });
 });
+
+// 将package.json复制到lib目录下
