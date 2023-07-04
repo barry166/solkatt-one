@@ -1,13 +1,14 @@
 
 import { log } from '@solkatt-one/utils'
-import path from 'path'
-import fse from 'fs-extra'
-import { dirname } from 'dirname-filename-esm'
+import pkg from '../package.json'
+// import path from 'path'
+// import fse from 'fs-extra'
+// import { dirname } from 'dirname-filename-esm'
 // import pkg from '../package.json';
-const __dirname = dirname(import.meta)
+// const __dirname = dirname(import.meta)
 
-const pkgPath = path.resolve(__dirname, '../package.json')
-const pkg = fse.readJSONSync(pkgPath)
+// const pkgPath = path.resolve(__dirname, '../package.json')
+// const pkg = fse.readJSONSync(pkgPath)
 
 async function core () {
 	console.log('core')
@@ -20,7 +21,7 @@ function prepare () {
 
 function checkPkgVersion () {
 	console.log('log', pkg)
-	log.default.info('cli', 'test cli log')
+	log.info('cli', 'test cli log')
 }
 
 // function checkNodeVersion () { }

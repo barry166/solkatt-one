@@ -2,14 +2,14 @@
   "name": "@solkatt-one/core",
   "version": "1.0.0",
   "description": "",
-  "main": "lib/index.js",
   "bin": {
-    "solkatt-one": "lib/index.js"
+    "solkatt-one": "bin/index.js"
   },
   "files": [
+    "package.json",
+    "README.md",
     "lib"
   ],
-  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rimraf lib && tsc",

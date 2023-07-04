@@ -1,28 +1,26 @@
 {
+  "compileOnSave": true,
   "compilerOptions": {
-    "module": "ES2020",
-    "target": "ES2020",
-    "lib": [
-      "es6"
-    ],
-    // "declaration": true,
-    "rootDir": "./",
-    "outDir": "./lib",
-    "strict": true,
+    "target": "es2020",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "experimentalDecorators": true,
     "esModuleInterop": true,
-    "moduleResolution": "bundler",
-    "resolveJsonModule": true,
-
-    "skipLibCheck": true,
-    // "declaration": false,
-    // "sourceMap": false,
-    // "noUnusedLocals": true,
+    "emitDecoratorMetadata": true,
+    "inlineSourceMap":true,
+    "noImplicitThis": true,
+    "noUnusedLocals": true,
+    "stripInternal": true,
+    "pretty": true,
+    "outDir": "lib",
+    "baseUrl": "./",
+    "paths": {
+      "*": ["src/*"]
+    }
   },
-  "include": [
-    "**/*"
-  ],
   "exclude": [
+    "lib",
     "node_modules",
-    "lib"
-  ],
+    "test"
+  ]
 }
