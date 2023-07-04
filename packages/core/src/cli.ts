@@ -20,7 +20,7 @@ function prepare() {
 
 function checkPkgVersion() {
   console.log('log', pkg)
-  log.info('cli', 'test cli log')
+  log.info('cli', pkg.version)
 }
 
 // function checkNodeVersion () { }
