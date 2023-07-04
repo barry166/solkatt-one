@@ -9,21 +9,29 @@
     "watch": "pnpm -r --parallel exec  tsc -w",
     "eslint": "eslint --fix packages --ext .ts --max-warnings=0",
     "prettier": "prettier --write \"packages/**/*.ts\"",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "lint-staged": "lint-staged"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "lint-staged": {
+    "*.ts": [
+      "npm run eslint",
+      "npm run prettier"
+    ]
+  },
   "devDependencies": {
     "@changesets/cli": "^2.26.2",
     "@types/node": "*",
     "@typescript-eslint/eslint-plugin": "^5.61.0",
     "@typescript-eslint/parser": "^5.61.0",
     "eslint": "^8.44.0",
+    "husky": "^8.0.0",
+    "lint-staged": "^13.2.3",
     "prettier": "^2.8.8",
     "rimraf": "^5.0.1",
     "ts-node": "^10.9.1",
-    "typescript": "^5.1.6",
-    "husky": "^8.0.0"
+    "typescript": "^5.1.6"
   }
 }

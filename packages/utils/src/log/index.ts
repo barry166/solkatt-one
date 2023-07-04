@@ -1,9 +1,9 @@
-import log from "npmlog";
+import log from 'npmlog'
 
-if (process.argv.includes("--debug") || process.argv.includes("-d")) {
-  log.level = "verbose";
+if (process.argv.includes('--debug') || process.argv.includes('-d')) {
+  log.level = 'verbose'
 } else {
-  log.level = "info";
+  log.level = 'info'
 }
 
-export default log;
+export default log
