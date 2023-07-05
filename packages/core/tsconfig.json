@@ -1,13 +1,12 @@
 {
   "compileOnSave": true,
   "compilerOptions": {
-    "target": "es2020",
-    "module": "commonjs",
+    "target": "ESNext",
+    "module": "ESNext",
     "moduleResolution": "node",
     "experimentalDecorators": true,
-    "esModuleInterop": true,
     "emitDecoratorMetadata": true,
-    "inlineSourceMap":true,
+    "inlineSourceMap": true,
     "noImplicitThis": true,
     "noUnusedLocals": true,
     "stripInternal": true,
@@ -15,13 +14,20 @@
     "outDir": "lib",
     "baseUrl": "./",
     "paths": {
-      "*": ["src/*"]
+      "*": [
+        "src/*"
+      ]
     },
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true
   },
   "exclude": [
     "lib",
     "node_modules",
     "test"
-  ]
+  ],
+  "ts-node": {
+    "esm": true
+  }
 }

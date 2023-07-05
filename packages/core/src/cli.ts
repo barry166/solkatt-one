@@ -1,30 +1,38 @@
+import rootCheck from 'root-check'
+import semver from 'semver'
+import chalk from 'chalk'
 import { log } from '@solkatt-one/utils'
-import pkg from '../package.json'
-// import path from 'path'
-// import fse from 'fs-extra'
-// import { dirname } from 'dirname-filename-esm'
-// import pkg from '../package.json';
-// const __dirname = dirname(import.meta)
-
-// const pkgPath = path.resolve(__dirname, '../package.json')
-// const pkg = fse.readJSONSync(pkgPath)
+import pkg from '../package.json' assert { type: 'json' }
+import { LATEST_NODE_VERSION } from './constant'
 
 async function core() {
-  console.log('core')
-  prepare()
+  try {
+    prepare()
+  } catch (error) {
+    log.error('error', error.message)
+  }
 }
 
 function prepare() {
   checkPkgVersion()
+  checkNodeVersion()
+  checkRoot()
 }
 
 function checkPkgVersion() {
-  console.log('log', pkg)
   log.info('cli', pkg.version)
 }
 
-// function checkNodeVersion () { }
-// function checkRoot () { }
+function checkNodeVersion() {
+  if (!semver.gte(process.version, LATEST_NODE_VERSION)) {
+    throw new Error(
+      chalk.red(`需要安装 v${LATEST_NODE_VERSION} 以上版本的 Node.js`)
+    )
+  }
+}
+function checkRoot() {
+  rootCheck()
+}
 // function checkUserHome () { }
 // function checkEnv () { }
 // function checkGlobalUpdate () { }

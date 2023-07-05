@@ -3,9 +3,20 @@
   "version": "1.0.0",
   "description": "",
   "main": "lib/index.js",
+  "type": "module",
   "bin": {
     "solkatt-one": "lib/index.js"
   },
+  "exports": {
+    ".": {
+      "import": "./lib/index.js",
+      "require": "./lib/index.js"
+    },
+    "./package.json": "./package.json",
+    "./lib/index.js": "./lib/index.js",
+    "./lib/index.d.ts": "./lib/index.d.ts"
+  },
+  "types": "lib/index.d.ts",
   "files": [
     "package.json",
     "README.md",
@@ -13,7 +24,7 @@
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rimraf lib && tsc",
+    "build": "rimraf lib && tsc --build",
     "build:watch": "tsc -w",
     "dev": "ts-node src/index.ts"
   },
@@ -24,5 +35,8 @@
   },
   "dependencies": {
     "npmlog": "^7.0.1"
+  },
+  "devDependencies": {
+    "@types/npmlog": "^4.1.4"
   }
 }

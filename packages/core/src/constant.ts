@@ -1,0 +1,1 @@
+export const  LATEST_NODE_VERSION = '18.0.0'
