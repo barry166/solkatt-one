@@ -15,7 +15,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rimraf lib && tsc --build",
     "build:watch": "tsc -w",
-    "dev": "node --es-module-specifier-resolution=node --loader ts-node/esm src/index.ts",
+    "dev:backup": "node --es-module-specifier-resolution=node --loader ts-node/esm src/index.ts init aaa -d -tp /Users/barry/Documents/domain/project/Experimental/solkatt-one/packages/init/lib/index./js",
+    "dev": "node --es-module-specifier-resolution=node --loader ts-node/esm src/index.ts init aaa -d -tp /Users/barry/Documents/domain/project/Experimental/solkatt-one/packages/init/lib/index./js",
     "start": "node --es-module-specifier-resolution=node lib/src/index.js"
   },
   "author": "",
@@ -24,8 +25,10 @@
     "access": "public"
   },
   "dependencies": {
+    "@solkatt-one/exec": "workspace:^1.0.0",
     "@solkatt-one/utils": "workspace:^1.0.0",
     "chalk": "^5.3.0",
+    "commander": "^11.0.0",
     "dotenv": "^16.3.1",
     "fs-extra": "^11.1.1",
     "import-local": "^3.1.0",

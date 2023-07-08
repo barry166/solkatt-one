@@ -1,64 +1,53 @@
-import path from 'node:path'
-import rootCheck from 'root-check'
-import semver from 'semver'
+import { Command } from 'commander'
 import chalk from 'chalk'
-import os from 'os'
-import { pathExists } from 'path-exists'
-import dotEnv from 'dotenv'
 import { log } from '@solkatt-one/utils'
+import exec from '@solkatt-one/exec'
+
+import { prepare } from './prepare'
 import pkg from '../package.json' assert { type: 'json' }
-import { LATEST_NODE_VERSION } from './constant'
 
 async function core() {
   try {
-    prepare()
+    await prepare()
+    registerCommand()
   } catch (error) {
     log.error('error', error.message)
+    log.verbose('error', error)
   }
 }
 
-async function prepare() {
-  checkPkgVersion()
-  checkNodeVersion()
-  checkRoot()
-  await checkUserHome()
-  checkEnv()
-}
+function registerCommand() {
+  const program = new Command()
+  program
+    .name(Object.keys(pkg.bin)[0])
+    .usage('<command> [options]')
+    .description('一个通用的脚手架工具')
+    .version(pkg.version)
 
-function checkPkgVersion() {
-  log.info('cli', pkg.version)
-}
+  program
+    .option('-d, --debug', '是否开启调试模式', false)
+    .option('-tp, --targetPath <targetPath>', '本地调试文件路径', '')
 
-function checkNodeVersion() {
-  if (!semver.gte(process.version, LATEST_NODE_VERSION)) {
-    throw new Error(
-      chalk.red(`需要安装 v${LATEST_NODE_VERSION} 以上版本的 Node.js`)
-    )
+  program
+    .command('init [projectName]')
+    .description('初始化项目')
+    .option('-f, --force', '是否强制初始化项目', false)
+    .action(exec)
+
+  program.on('option:targetPath', function () {
+    process.env.CLI_TARGET_PATH = program.opts().targetPath
+  })
+
+  program.on('command:*', (obj) => {
+    console.log(chalk.red('未知的命令：' + obj[0]))
+  })
+
+  program.parse(process.argv)
+
+  if (program.args && program.args.length < 1) {
+    program.outputHelp()
+    console.log()
   }
 }
-function checkRoot() {
-  rootCheck()
-}
-
-async function checkUserHome() {
-  const userHomePath = os.homedir()
-  log.info('userHomePath', userHomePath)
-  if (!(await pathExists(userHomePath))) {
-    throw new Error(chalk.red('当前登录用户主目录不存在'))
-  }
-}
-
-function checkEnv() {
-  const envPath = path.resolve(os.homedir(), '.env')
-  dotEnv.config({ path: envPath })
-  console.log(process.env.CLI_HOME_PATH)
-}
-
-// function checkGlobalUpdate () {
-//   // 1. 获取当前版本号和模块名
-//   // 2. 调用 npm API，获取所有版本号
-//   // 3. 提取所有版本号，比对哪些版本号是大于当前版本号
-//   // 4. 获取最新的版本号，提示用户更新到该版本
-//  }
 
 export default core

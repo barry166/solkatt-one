@@ -1,12 +1,8 @@
 {
-  "name": "@solkatt-one/utils",
+  "name": "@solkatt-one/exec",
   "version": "1.0.0",
   "description": "",
-  "main": "lib/index.js",
   "type": "module",
-  "bin": {
-    "solkatt-one": "lib/index.js"
-  },
   "exports": {
     ".": {
       "import": "./lib/index.js",
@@ -34,12 +30,8 @@
     "access": "public"
   },
   "dependencies": {
-    "axios": "^1.4.0",
-    "npmlog": "^7.0.1",
-    "path-exists": "^5.0.0",
-    "semver": "^7.5.3"
-  },
-  "devDependencies": {
-    "@types/npmlog": "^4.1.4"
+    "@solkatt-one/models": "workspace:^1.0.0",
+    "@solkatt-one/utils": "workspace:^1.0.0",
+    "path-exists": "^5.0.0"
   }
 }

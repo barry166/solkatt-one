@@ -1,12 +1,8 @@
 {
-  "name": "@solkatt-one/utils",
+  "name": "@solkatt-one/init",
   "version": "1.0.0",
   "description": "",
-  "main": "lib/index.js",
   "type": "module",
-  "bin": {
-    "solkatt-one": "lib/index.js"
-  },
   "exports": {
     ".": {
       "import": "./lib/index.js",
@@ -36,7 +32,6 @@
   "dependencies": {
     "axios": "^1.4.0",
     "npmlog": "^7.0.1",
-    "path-exists": "^5.0.0",
     "semver": "^7.5.3"
   },
   "devDependencies": {
