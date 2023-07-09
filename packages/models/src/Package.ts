@@ -1,12 +1,13 @@
 import { packageDirectory } from 'pkg-dir'
+import npminstall from 'npminstall'
+import { pathExists } from 'path-exists'
 import {
   getNpmLatestVersion,
   getPackageInputFile,
   log,
   npmTaobaoRegisterUrl,
+	formatPath
 } from '@solkatt-one/utils'
-import npminstall from 'npminstall'
-import { pathExists } from 'path-exists'
 
 interface PackageOptions {
   targetPath?: string
@@ -15,6 +16,9 @@ interface PackageOptions {
   packageVersion?: string
 }
 
+/**
+ * Package类，抽象Package相关操作
+ */
 class Package {
   targetPath: string
   storeDir: string
@@ -80,7 +84,7 @@ class Package {
       })
       if (!packageDir) return null
       const rootFile = await getPackageInputFile(packageDir)
-      return rootFile
+      return formatPath(rootFile)
     }
 
     let rootFilePath

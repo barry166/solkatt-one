@@ -1,5 +1,4 @@
 import Package from './Package'
+import Command from './Command'
 
-export {
-	Package
-}
+export { Package, Command }

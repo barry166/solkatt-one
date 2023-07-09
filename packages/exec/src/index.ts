@@ -1,11 +1,12 @@
 import path from 'node:path'
+import { spawn } from 'child_process'
 import { Package } from '@solkatt-one/models'
-import { log } from '@solkatt-one/utils'
-// import { pathExists } from 'path-exists'
+import { isEsModule, log } from '@solkatt-one/utils'
+import { genExecArgs, parseArgs } from './utils'
 
 const packagesMap = {
-  // init: '@solkatt-one/init',
-  init: 'axios',
+  init: '@solkatt-one/init',
+  // init: 'axios',
   publish: '@solkatt-one/publish',
 }
 
@@ -43,8 +44,23 @@ async function exec() {
   }
   const rootFilePath = await pkg.getRootFilePath()
   log.verbose('rootFilePath', rootFilePath)
-  // if (await pathExists(rootFilePath)) {
-  // }
+
+  if (rootFilePath) {
+    const isEsm = await isEsModule(rootFilePath)
+    const args = parseArgs(Array.from(arguments))
+    const execArgs = genExecArgs(isEsm, rootFilePath, args)
+    const child = spawn('node', execArgs, {
+      cwd: process.cwd(),
+      stdio: 'inherit',
+    })
+    child.on('error', (e) => {
+      log.error('error', e.message)
+      process.exit(1)
+    })
+    child.on('exit', () => {
+      process.exit(0)
+    })
+  }
 }
 
 export default exec

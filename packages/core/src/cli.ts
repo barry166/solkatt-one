@@ -32,6 +32,7 @@ function registerCommand() {
     .command('init [projectName]')
     .description('初始化项目')
     .option('-f, --force', '是否强制初始化项目', false)
+    .option('-tt, --test', '测试参数', 'test-params')
     .action(exec)
 
   program.on('option:targetPath', function () {
