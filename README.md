@@ -13,3 +13,5 @@ pnpm run build
 pnpm changeset
 
 pnpm changeset publish
+
+pnpm publish -r -no-git-checks
