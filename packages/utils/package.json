@@ -37,6 +37,7 @@
     "axios": "^1.4.0",
     "npmlog": "^7.0.1",
     "path-exists": "^5.0.0",
+    "pkg-dir": "^7.0.0",
     "semver": "^7.5.3"
   },
   "devDependencies": {

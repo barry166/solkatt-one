@@ -1,6 +1,7 @@
 import path from 'node:path'
 import fs from 'node:fs'
 import { pathExists } from 'path-exists'
+import { packageDirectory } from 'pkg-dir'
 import log from './log'
 
 export * from './npmInfo'
@@ -24,8 +25,7 @@ export const getPackageInputFile = async (packageDir: string) => {
   const pkgPath = path.resolve(packageDir, 'package.json')
   const pkg = readJsonFile(pkgPath)
   const inputReleativePath = getPackageInputRelativePath(pkg)
-  console.log('inputReleativePath', inputReleativePath)
-	return path.resolve(packageDir, inputReleativePath)
+  return path.resolve(packageDir, inputReleativePath)
 }
 
 export const getPackageInputRelativePath = (pkg) => {
@@ -44,6 +44,29 @@ export const getPackageInputRelativePath = (pkg) => {
     }
   }
   return pkg?.main || 'index.js' || 'main.js'
+}
+
+// 兼容window和mac路径格式
+export function formatPath(p) {
+  if (p && typeof p === 'string') {
+    const sep = path.sep
+    if (sep === '/') {
+      return p
+    } else {
+      return p.replace(/\\/g, '/')
+    }
+  }
+  return p
+}
+
+// 判断是否esmodule
+export const isEsModule = async (filePath) => {
+  const packageDir = await packageDirectory({
+    cwd: filePath,
+  })
+  const pkgPath = path.resolve(packageDir, 'package.json')
+  const pkg = readJsonFile(pkgPath)
+  return pkg?.type === 'module'
 }
 
 export { log }
