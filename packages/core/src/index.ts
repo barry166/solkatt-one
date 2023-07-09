@@ -1,4 +1,3 @@
-#! /usr/bin/env node --experimental-specifier-resolution=node
 import importLocal from 'import-local'
 import core from './cli'
 
