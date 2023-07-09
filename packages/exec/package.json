@@ -1,6 +1,6 @@
 {
   "name": "@solkatt-one/exec",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "",
   "type": "module",
   "exports": {
@@ -30,8 +30,8 @@
     "access": "public"
   },
   "dependencies": {
-    "@solkatt-one/models": "workspace:^1.0.0",
-    "@solkatt-one/utils": "workspace:^1.0.0",
+    "@solkatt-one/models": "workspace:^2.0.0",
+    "@solkatt-one/utils": "workspace:^2.0.0",
     "path-exists": "^5.0.0"
   }
 }

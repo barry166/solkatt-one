@@ -10,7 +10,8 @@
     "eslint": "eslint --fix packages --ext .ts --max-warnings=0",
     "prettier": "prettier --write \"packages/**/*.ts\"",
     "prepare": "husky install",
-    "lint-staged": "lint-staged"
+    "lint-staged": "lint-staged",
+    "prepublishOnly": "npm run build"
   },
   "keywords": [],
   "author": "",

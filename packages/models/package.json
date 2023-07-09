@@ -1,6 +1,6 @@
 {
   "name": "@solkatt-one/models",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "",
   "type": "module",
   "exports": {
@@ -30,7 +30,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@solkatt-one/utils": "workspace:^1.0.0",
+    "@solkatt-one/utils": "workspace:^2.0.0",
     "npminstall": "^7.9.0",
     "path-exists": "^5.0.0",
     "pkg-dir": "^7.0.0"
