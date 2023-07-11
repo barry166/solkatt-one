@@ -10,7 +10,7 @@ export const npmTaobaoRegisterUrl = 'https://registry.npmmirror.com'
  * @param npmName
  * @param registry
  */
-export const getNpmInfo = async (npmName: string, registry = npmRegisterUrl) => {
+export const getNpmInfo = async (npmName: string, registry = npmTaobaoRegisterUrl) => {
   if (!npmName) return null
   const npmInfoUrl = `${registry}/${npmName}`
   const res = await axios.get(npmInfoUrl)
@@ -24,7 +24,7 @@ export const getNpmInfo = async (npmName: string, registry = npmRegisterUrl) => 
  */
 export const getNpmVersions = async (
   npmName: string,
-  registry = npmRegisterUrl
+  registry = npmTaobaoRegisterUrl
 ) => {
   const npmInfo = await getNpmInfo(npmName, registry)
   const versions = Object.keys(npmInfo.versions) || []
@@ -39,7 +39,7 @@ export const getNpmVersions = async (
  */
 export const getNpmLatestVersion = async (
   npmName: string,
-  registry = npmRegisterUrl
+  registry = npmTaobaoRegisterUrl
 ) => {
   const npmVersions = await getNpmVersions(npmName, registry)
   const sortVersions = npmVersions.sort((a, b) => semver.gt(b, a) ? 1 : -1)

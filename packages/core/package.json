@@ -17,7 +17,7 @@
     "build:watch": "tsc -w",
     "dev:backup": "node --es-module-specifier-resolution=node --loader ts-node/esm src/index.ts init aaa -d -tp /Users/barry/Documents/domain/project/Experimental/solkatt-one/packages/init/lib/index./js",
     "dev": "node --es-module-specifier-resolution=node --loader ts-node/esm src/index.ts init aaa -d -tp /Users/barry/Documents/domain/project/Experimental/solkatt-one/packages/init/lib/index./js",
-    "start": "node --es-module-specifier-resolution=node lib/src/index.js"
+    "start": "node --es-module-specifier-resolution=node bin/index.js"
   },
   "author": "",
   "license": "ISC",
