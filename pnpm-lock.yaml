@@ -111,9 +111,18 @@ importers:
       '@solkatt-one/models':
         specifier: workspace:^2.0.0
         version: link:../models
+      '@solkatt-one/utils':
+        specifier: workspace:^
+        version: link:../utils
       axios:
         specifier: ^1.4.0
         version: 1.4.0
+      fs-extra:
+        specifier: ^11.1.1
+        version: 11.1.1
+      inquirer:
+        specifier: ^9.2.7
+        version: 9.2.7
       npmlog:
         specifier: ^7.0.1
         version: 7.0.1

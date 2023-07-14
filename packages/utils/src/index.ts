@@ -5,6 +5,7 @@ import { packageDirectory } from 'pkg-dir'
 import log from './log'
 
 export * from './npmInfo'
+export * from './request'
 
 export const readJsonFile = (filePath: string) => {
   if (!filePath) return
