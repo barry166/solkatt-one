@@ -16,7 +16,7 @@
     "build": "rimraf lib && tsc --build",
     "build:watch": "tsc -w",
     "dev:backup": "node --es-module-specifier-resolution=node --loader ts-node/esm src/index.ts init aaa -d -tp /Users/barry/Documents/domain/project/Experimental/solkatt-one/packages/init/lib/index./js",
-    "dev": "node --es-module-specifier-resolution=node --loader ts-node/esm src/index.ts init -d -tp /Users/barry/Documents/domain/project/Experimental/solkatt-one/packages/init/lib/index./js aaa",
+    "dev": "node --es-module-specifier-resolution=node --loader ts-node/esm src/index.ts init -d -tp /home/barry/文档/project/experimental/solkatt-one/packages/init/lib/index.js aaa",
     "start": "node --es-module-specifier-resolution=node bin/index.js"
   },
   "author": "",
