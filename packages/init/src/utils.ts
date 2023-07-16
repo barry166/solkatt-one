@@ -4,13 +4,15 @@ export const COMPONENT = 'component'
 export const getTemplateData = async () => {
   return [
     {
-      name: 'react',
-      url: '',
+      label: 'react模板',
+      npmName: '@solkatt-one/react-template',
+      npmVersion: '1.0.0',
       type: 'project',
     },
     {
-      name: 'vue3',
-      url: '',
+      label: 'lib基础类库',
+      npmName: '@solkatt-one/lib-base',
+      npmVersion: '1.0.0',
       type: 'component',
     },
   ]

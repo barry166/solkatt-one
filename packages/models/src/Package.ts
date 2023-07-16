@@ -1,13 +1,7 @@
 import { packageDirectory } from 'pkg-dir'
 import npminstall from 'npminstall'
 import { pathExists } from 'path-exists'
-import {
-  getNpmLatestVersion,
-  getPackageInputFile,
-  log,
-  npmTaobaoRegisterUrl,
-	formatPath
-} from '@solkatt-one/utils'
+import { getNpmLatestVersion, getPackageInputFile, log, npmTaobaoRegisterUrl, formatPath } from '@solkatt-one/utils'
 
 interface PackageOptions {
   targetPath?: string
@@ -38,7 +32,12 @@ class Package {
 
   // 获取缓存目录中包的的一级目录
   get cachePackagePath() {
-    return `${this.storeDir}/.store/${this.packageName}@${this.packageVersion}`
+    let pkgName = this.packageName
+    if (this.packageName.includes('/') && this.packageName.startsWith('@')) {
+      const [pre, after] = pkgName.split('/')
+      pkgName = `${pre}+${after}`
+    }
+    return `${this.storeDir}/.store/${pkgName}@${this.packageVersion}`
   }
 
   // 获取缓存目录中包的真实跟路径，在npminstall中，包存放格式为.store/${pkg}/node_modules/${pkg}下

@@ -2,6 +2,7 @@ import path from 'node:path'
 import fs from 'node:fs'
 import { pathExists } from 'path-exists'
 import { packageDirectory } from 'pkg-dir'
+import ora, { Ora } from 'ora'
 import log from './log'
 
 export * from './npmInfo'
@@ -34,13 +35,8 @@ export const getPackageInputRelativePath = (pkg) => {
   if (pkg?.type === 'module') {
     if (pkg?.exports) {
       if (typeof pkg.exports === 'string') return pkg.exports
-      if (pkg.exports['.'] && typeof pkg.exports['.'] === 'string')
-        return pkg.exports['.']
-      if (
-        pkg.exports['.'] &&
-        pkg.exports['.'] &&
-        typeof pkg.exports['.']['import'] === 'string'
-      )
+      if (pkg.exports['.'] && typeof pkg.exports['.'] === 'string') return pkg.exports['.']
+      if (pkg.exports['.'] && pkg.exports['.'] && typeof pkg.exports['.']['import'] === 'string')
         return pkg.exports['.']['import']
     }
   }
@@ -68,6 +64,15 @@ export const isEsModule = async (filePath) => {
   const pkgPath = path.resolve(packageDir, 'package.json')
   const pkg = readJsonFile(pkgPath)
   return pkg?.type === 'module'
+}
+
+export function spinnerStart(msg: string): Ora {
+  const spinner = ora(msg).start()
+  return spinner
+}
+
+export function sleep(timeout = 1000) {
+  return new Promise((resolve) => setTimeout(resolve, timeout))
 }
 
 export { log }
