@@ -78,6 +78,7 @@ class InitCommand extends Command {
 
       try {
         await this.pkg.update()
+        spinner.stop()
         log.success('更新模板成功')
       } catch (error) {
         throw error
@@ -90,6 +91,7 @@ class InitCommand extends Command {
 
       try {
         await this.pkg.install()
+        spinner.stop()
         log.success('下载模板成功')
       } catch (error) {
         throw error
