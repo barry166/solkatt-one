@@ -1,7 +1,7 @@
 import { packageDirectory } from 'pkg-dir'
 import npminstall from 'npminstall'
 import { pathExists } from 'path-exists'
-import { getNpmLatestVersion, getPackageInputFile, log, npmTaobaoRegisterUrl, formatPath } from '@solkatt-one/utils'
+import { getNpmLatestVersion, getPackageInputFile, log, npmTaobaoRegisterUrl, formatPath, npmRegisterUrl } from '@solkatt-one/utils'
 
 interface PackageOptions {
   targetPath?: string
@@ -27,7 +27,7 @@ class Package {
   }
 
   async prepare() {
-    this.packageVersion = await getNpmLatestVersion(this.packageName)
+    this.packageVersion = await getNpmLatestVersion(this.packageName, npmRegisterUrl)
   }
 
   // 获取缓存目录中包的的一级目录
@@ -42,7 +42,12 @@ class Package {
 
   // 获取缓存目录中包的真实跟路径，在npminstall中，包存放格式为.store/${pkg}/node_modules/${pkg}下
   get getCachePackageRootDir() {
-    return `${this.storeDir}/.store/${this.packageName}@${this.packageVersion}/node_modules/${this.packageName}`
+    let pkgName = this.packageName
+    if (this.packageName.includes('/') && this.packageName.startsWith('@')) {
+      const [pre, after] = pkgName.split('/')
+      pkgName = `${pre}+${after}`
+    }
+    return `${this.storeDir}/.store/${pkgName}@${this.packageVersion}/node_modules/${this.packageName}`
   }
 
   // 查看包是否存在
@@ -53,25 +58,26 @@ class Package {
     return await pathExists(this.targetPath)
   }
 
-  async install() {
+  async install(registry = npmTaobaoRegisterUrl) {
     await npminstall({
       root: this.targetPath,
       storeDir: this.storeDir,
-      registry: npmTaobaoRegisterUrl,
+      registry: registry,
       pkgs: [{ name: this.packageName, version: this.packageVersion }],
     })
   }
 
-  async update() {
+  async update(registry = npmTaobaoRegisterUrl) {
     await this.prepare()
     if (!(await pathExists(this.cachePackagePath))) {
       log.verbose(this.packageName, 'is updating...')
       await npminstall({
         root: this.targetPath,
         storeDir: this.storeDir,
-        registry: npmTaobaoRegisterUrl,
+        registry: registry,
         pkgs: [{ name: this.packageName, version: this.packageVersion }],
       })
+      this.packageVersion
     }
   }
 

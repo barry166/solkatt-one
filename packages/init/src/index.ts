@@ -1,25 +1,16 @@
 import fs from 'node:fs'
+import { spawnSync } from 'child_process'
 import path from 'node:path'
 import inquirer from 'inquirer'
 import semver from 'semver'
-import { emptyDirSync } from 'fs-extra'
+import ejs from 'ejs'
+import { glob } from 'glob'
+import fse from 'fs-extra'
 import { Command } from '@solkatt-one/models'
-import { log, sleep, spinnerStart } from '@solkatt-one/utils'
+import { log, sleep, spinnerStart, npmRegisterUrl } from '@solkatt-one/utils'
 import { Package } from '@solkatt-one/models'
-import { PROJECT, COMPONENT, getTemplateData } from './utils'
+import { COMPONENT, Template, getTemplateData, types, typesMap, whiteCommandList } from './utils'
 
-const types = [PROJECT, COMPONENT]
-const typesMap = {
-  [PROJECT]: '项目',
-  [COMPONENT]: '组件',
-}
-
-interface Template {
-  label: string
-  npmName: string
-  npmVersion: string
-  type: string
-}
 class InitCommand extends Command {
   projectName: string
   force: boolean
@@ -77,7 +68,7 @@ class InitCommand extends Command {
       await sleep()
 
       try {
-        await this.pkg.update()
+        await this.pkg.update(npmRegisterUrl)
         spinner.stop()
         log.success('更新模板成功')
       } catch (error) {
@@ -90,7 +81,7 @@ class InitCommand extends Command {
       await sleep()
 
       try {
-        await this.pkg.install()
+        await this.pkg.install(npmRegisterUrl)
         spinner.stop()
         log.success('下载模板成功')
       } catch (error) {
@@ -111,7 +102,7 @@ class InitCommand extends Command {
       console.log('isContinue', isContinue)
       if (!isContinue) return
       // 清空目录
-      emptyDirSync(this.cwd)
+      fse.emptyDirSync(this.cwd)
     }
     await this.getSelectedTemplate()
   }
@@ -185,7 +176,7 @@ class InitCommand extends Command {
         ])
       ).desc
     }
-    const selectTemplateList = this.templates.filter((t) => t.type === answer.type)
+    const selectTemplateList = this.templates.filter((t) => t.tags.includes(answer.type))
     if (!selectTemplateList || selectTemplateList.length === 0) throw new Error(`${answer.type}类似模板不存在`)
     const selectedName = (
       await inquirer.prompt([
@@ -198,7 +189,11 @@ class InitCommand extends Command {
       ])
     ).selectedName
 
-    this.projectInfo = answer
+    this.projectInfo = {
+      name: answer.packageName,
+      version: answer.packageVersion,
+      desc: answer.desc,
+    }
     this.selectedTemplate = this.templates.find((t) => t.npmName === selectedName)
   }
 
@@ -216,7 +211,95 @@ class InitCommand extends Command {
   }
 
   async installTemplate() {
-    //todo
+    if (this.selectedTemplate.type === 'normal') {
+      await this.installNormalTemplate()
+    } else if (this.selectedTemplate.type === 'custom') {
+      await this.installCustomTemplate()
+    } else {
+      throw new Error('无法识别项目模板类型')
+    }
+  }
+
+  async installNormalTemplate() {
+    // 拷贝到当前目录
+    await this.copyToDest()
+    // ejs渲染
+    await this.ejsRender()
+    // 执行安装命令
+    if (this.selectedTemplate?.installCommand) {
+      await this.execCommand(this.selectedTemplate.installCommand, '安装命令执行失败！')
+    }
+    // 执行启动命令
+    if (this.selectedTemplate?.startCommand) {
+      await this.execCommand(this.selectedTemplate.startCommand, '启动命令执行失败！')
+    }
+  }
+
+  async installCustomTemplate() {
+    if (await this.pkg.exists()) {
+      const rootFile = await this.pkg.getRootFilePath()
+      if (fs.existsSync(rootFile)) {
+        log.info('开始执行自定义模板', '')
+        const templatePath = path.resolve(this.pkg.getCachePackageRootDir, 'template')
+        const options = {
+          templateInfo: this.selectedTemplate,
+          projectInfo: this.projectInfo,
+          sourcePath: templatePath,
+          targetPath: process.cwd(),
+        }
+        const code = `require('${rootFile}')(${JSON.stringify(options)})`
+        log.verbose('code', code)
+        spawnSync('node', ['-e', code], { stdio: 'inherit', cwd: process.cwd() })
+        log.success('自定义模板安装成功')
+      } else {
+        throw new Error('自定义模板入口文件不存在！')
+      }
+    }
+  }
+
+  async execCommand(command: string, errMsg = '命令执行失败！') {
+    // 解析参数
+    const [cmd, ...cmdArgs] = command.split(' ')
+    if (!whiteCommandList.includes(cmd)) {
+      throw new Error('命令不存在！命令：' + command)
+    }
+    const res = spawnSync(cmd, cmdArgs, {
+      cwd: this.cwd,
+      stdio: 'inherit',
+    })
+    // 检查子进程是否执行成功
+    if (res.status === 0) {
+      // 子进程成功执行
+      log.success(command, '执行成功！')
+    } else {
+      // 子进程执行失败
+      log.error('error', errMsg + '程序退出')
+    }
+  }
+
+  async ejsRender() {
+    const ignore = ['node_modules/**', ...(this.selectedTemplate?.ignore || [])]
+    const files = await glob('**/*', { ignore, cwd: this.cwd, dot: true, nodir: true })
+
+    const resolveFileList = files.map((file) => {
+      const cwd = this.cwd
+      return new Promise((resolve, reject) => {
+        ejs.renderFile(path.resolve(cwd, file), this.projectInfo, {}, function (err, str) {
+          if (err) reject(err)
+          else {
+            fs.writeFileSync(path.resolve(cwd, file), str)
+            resolve(str)
+          }
+        })
+      })
+    })
+    await Promise.all(resolveFileList)
+    log.success('模板渲染成功')
+  }
+
+  async copyToDest() {
+    const sourcePath = path.resolve(this.pkg.getCachePackageRootDir, 'template')
+    fse.copySync(sourcePath, this.cwd)
   }
 
   // 当前目录是否为空
