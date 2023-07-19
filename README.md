@@ -15,3 +15,14 @@ pnpm changeset
 pnpm changeset publish
 
 pnpm publish -r -no-git-checks
+
+
+## 项目本地调试
+使用vscode调试本地代码，直接点击Launch via NPM，入口文件从core开始，运行前需要执行以下命令监听全局改动
+```shell
+pnpm run watch
+
+```
+
+
+

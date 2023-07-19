@@ -7,7 +7,7 @@ import ejs from 'ejs'
 import { glob } from 'glob'
 import fse from 'fs-extra'
 import { Command } from '@solkatt-one/models'
-import { log, sleep, spinnerStart, npmRegisterUrl } from '@solkatt-one/utils'
+import { log, sleep, spinnerStart } from '@solkatt-one/utils'
 import { Package } from '@solkatt-one/models'
 import { COMPONENT, Template, getTemplateData, types, typesMap, whiteCommandList } from './utils'
 
@@ -25,7 +25,7 @@ class InitCommand extends Command {
   pkg: Package
 
   init() {
-    console.log('init command init..', this.cmdName, this.cmdOption)
+    console.log('init command init..', this.cmdName, this.cmdOption, process.env.CLI_REGISTRY)
     this.projectName = this.cmdName
     this.force = this.cmdOption?.force
     this.cwd = process.cwd() //当前操作目录
@@ -68,7 +68,7 @@ class InitCommand extends Command {
       await sleep()
 
       try {
-        await this.pkg.update(npmRegisterUrl)
+        await this.pkg.update()
         spinner.stop()
         log.success('更新模板成功')
       } catch (error) {
@@ -81,7 +81,7 @@ class InitCommand extends Command {
       await sleep()
 
       try {
-        await this.pkg.install(npmRegisterUrl)
+        await this.pkg.install()
         spinner.stop()
         log.success('下载模板成功')
       } catch (error) {

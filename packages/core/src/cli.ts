@@ -27,6 +27,7 @@ function registerCommand() {
   program
     .option('-d, --debug', '是否开启调试模式', false)
     .option('-tp, --targetPath <targetPath>', '本地调试文件路径', '')
+    .option('-r, --registry <registry>', '设置npm源, 默认是官方源', 'https://registry.npmjs.com')
 
   program
     .command('init [projectName]')
@@ -37,6 +38,10 @@ function registerCommand() {
 
   program.on('option:targetPath', function () {
     process.env.CLI_TARGET_PATH = program.opts().targetPath
+  })
+
+  program.on('option:registry', function () {
+    process.env.CLI_REGISTRY = program.opts().registry
   })
 
   program.on('command:*', (obj) => {

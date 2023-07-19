@@ -21,7 +21,9 @@
                 "test-project",
                 "-d",
                 "-tp",
-                "/home/barry/文档/project/experimental/solkatt-one/packages/init/lib/index.js"
+                "/home/barry/文档/project/experimental/solkatt-one/packages/init/lib/index.js",
+                // "-r",
+                // "https://registry.npmmirror.com"
             ],
             "type": "node",
             "runtimeVersion": "18.16.1",

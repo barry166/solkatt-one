@@ -1,7 +1,7 @@
 import { packageDirectory } from 'pkg-dir'
 import npminstall from 'npminstall'
 import { pathExists } from 'path-exists'
-import { getNpmLatestVersion, getPackageInputFile, log, npmTaobaoRegisterUrl, formatPath, npmRegisterUrl } from '@solkatt-one/utils'
+import { getNpmLatestVersion, getPackageInputFile, log, formatPath, npmRegisterUrl } from '@solkatt-one/utils'
 
 interface PackageOptions {
   targetPath?: string
@@ -58,23 +58,23 @@ class Package {
     return await pathExists(this.targetPath)
   }
 
-  async install(registry = npmTaobaoRegisterUrl) {
+  async install() {
     await npminstall({
       root: this.targetPath,
       storeDir: this.storeDir,
-      registry: registry,
+      registry: process.env.CLI_REGISTRY,
       pkgs: [{ name: this.packageName, version: this.packageVersion }],
     })
   }
 
-  async update(registry = npmTaobaoRegisterUrl) {
+  async update() {
     await this.prepare()
     if (!(await pathExists(this.cachePackagePath))) {
       log.verbose(this.packageName, 'is updating...')
       await npminstall({
         root: this.targetPath,
         storeDir: this.storeDir,
-        registry: registry,
+        registry: process.env.CLI_REGISTRY,
         pkgs: [{ name: this.packageName, version: this.packageVersion }],
       })
       this.packageVersion

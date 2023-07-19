@@ -40,7 +40,7 @@ export const getTemplateData = async (): Promise<Template[]> => {
       tags: ['component'],
       installCommand: 'npm install --registry=https://registry.npmmirror.com',
       startCommand: 'npm run start',
-      ignore: ['public/**/*']
+      ignore: ['public/**/*', 'coverage/**/*', 'tests/**/*', 'dist/**/*']
     },
     {
       label: '自定义模板',
@@ -50,7 +50,7 @@ export const getTemplateData = async (): Promise<Template[]> => {
       tags: ['project'],
       installCommand: 'npm install --registry=https://registry.npmmirror.com',
       startCommand: 'npm run start',
-      ignore: ['public/**/*']
+      ignore: ['public/**/*', 'coverage/**/*']
     },
   ]
 }
