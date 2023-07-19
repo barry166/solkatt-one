@@ -49,8 +49,8 @@ class InitCommand extends Command {
   }
 
   async downloadTemplate() {
-    console.log('selectedTemplate', this.selectedTemplate)
-    console.log('projectInfo', this.projectInfo)
+    log.verbose('selectedTemplate', JSON.stringify(this.selectedTemplate, null, 2))
+    log.verbose('projectInfo', JSON.stringify(this.projectInfo, null, 2))
 
     const { npmName, npmVersion } = this.selectedTemplate
     const targetPath = path.resolve(process.env.CLI_HOME_PATH, 'template')
@@ -99,7 +99,6 @@ class InitCommand extends Command {
     const res = await this.isDirEmpty()
     if (!res && !this.force) {
       const isContinue = await this.confirmEmpty()
-      console.log('isContinue', isContinue)
       if (!isContinue) return
       // 清空目录
       fse.emptyDirSync(this.cwd)
