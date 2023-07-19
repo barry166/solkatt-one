@@ -26,9 +26,9 @@
                 // "https://registry.npmmirror.com"
             ],
             "type": "node",
-            "runtimeVersion": "18.16.1",
+            // "runtimeVersion": "18.16.1",
             "program": "${workspaceFolder}/packages/core/lib/src/index.js",
-            "cwd": "/home/barry/文档/project/demo/test-project",
+            "cwd": "/Users/barry/Documents/domain/project/demo/test-project",
             "console": "externalTerminal"
         }
     ]
