@@ -1,3 +1,14 @@
+## 项目集成Cli
+
+### 环境要求
+Nodejs V18以上
+
+### 使用方式
+```
+npm i -g @solkatt-one
+solkatt-one -h
+```
+
 ## 项目运行
 pnpm run dev
 
